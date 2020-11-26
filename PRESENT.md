@@ -276,8 +276,6 @@ Bins/Libs   Bins/Libs   Bins/Libs   Bins/Libs     |              |
                Infrastructure
 ```
 
-
-
 # Docker Architecture
 
 ## `dockerd` daemon
@@ -366,7 +364,7 @@ docker run -ti kiss
 
 Note
 
-* containers run as `root` unless otherwise specified in the Dockerfile
+* containers run the image instructions as `root` unless otherwise specified in the Dockerfile
 
 # Bookmarks
 

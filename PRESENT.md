@@ -153,19 +153,35 @@ we build:
 
 * (data) applications
 
-should _just work_:
+and we expect 
 
 * libraries and dependencies
-* Operating System
-* Infrastructure
+* operating system
+* infrastructure
+
+to  _just work_
 
 . . .
+
+Our application:
+
+* web server - node.js
+* database - PostgreSQL
+* cache - Redis
+
+. . .
+
+Issues:
+
+* dependencies impact different levels, down to hardware 
+* compatibility matrix ~> spaghetti
+* fix one thing, break another
 
 # Solution #1
 
 Virtual Machines (VMs)
 
->A virtual machine (VM) runs a full-blown “guest” operating system with virtual access to host resources through a hypervisor. In general, VMs incur a lot of overhead beyond what is being consumed by your application logic.
+>A virtual machine (VM) runs a full-blown “guest” operating system with virtual access to host resources through a hypervisor. In general, VMs incur a lot of overhead **beyond** what is being consumed by your application logic.
 
 ```
 App 1       App 2       App N
@@ -222,7 +238,7 @@ We could have N applications
 
 We want
 
-* small footprint
+* small footprint (cpu,. memory, storage)
 * fast startup
 * flexible resource allocation
 * portability to run anywhere (remember technical relevance, earlier)
@@ -243,13 +259,24 @@ Bins/Libs   Bins/Libs   Bins/Libs
          Infrastructure
 ```
 
-. . .
+# Cloud platforms
 
-Note:
+Combining both
 
-- VM's are still useful
-- every use case has its own context
-- don't restrict yourself to a single perspective and think every problem can be solved the same way
+```
+App 1       App 2       App 3       App 4         |  Container   |
+Bins/Libs   Bins/Libs   Bins/Libs   Bins/Libs     |              |
+---------------------   ---------------------                    |  VM
+       Docker                   Docker                           |
+---------------------   ---------------------                    |
+         OS                      OS                              |
+=============================================
+                 Hypervisor
+---------------------------------------------
+               Infrastructure
+```
+
+
 
 # Docker Architecture
 
@@ -303,6 +330,8 @@ Let's build the image
 docker build -t kiss .
 ```
 
+Note the _layers_ in the build.
+
 Show
 
 ```bash
@@ -330,13 +359,14 @@ docker container ls | grep kiss
 Let's create one
 
 ```bash
-docker run -ti kiss /bin/bash
+docker run -ti kiss
 ```
+
+> for interactive processes (like a shell), you must use -i -t together in order to allocate a tty for the container process
 
 Note
 
 * containers run as `root` unless otherwise specified in the Dockerfile
-* no persistence (yet)
 
 # Bookmarks
 
@@ -345,6 +375,7 @@ https://docs.docker.com/reference/
 Today:
 
 https://docs.docker.com/engine/reference/commandline/run/
+https://docs.docker.com/engine/reference/builder/
 
 # Exercise 1
 
@@ -358,7 +389,94 @@ in that container.
 
 Use the `python:3.8-slim` image.
 
+Bonus: from your own host machine, inspect the container. What is the output format?
+
+# Volumes
+
+Mount host folders into the container
+
+```bash
+docker run -ti -v $(pwd):/myfolder kiss
+```
+
+`pwd` = print working directory
+
+The changes you make on the files in your host system are reflected in the container, and vice versa.
+
+
+# Logs
+
+What did I / the container do?
+
+```bash
+docker logs <container id>
+```
+
 # Exercise 2
+
+Use the docker image from the previous exercise to run the `hello.py` script in this folder.
+You can do this by 'mounting' the python file into the container.
+
+# Cleaning up
+
+Remember how to list containers
+
+Note
+
+```bash
+docker container ls
+```
+
+vs
+
+```bash
+docker container ls -a
+```
+
+How do we get rid of the leftovers?
+
+```bash
+docker container prune
+```
+
+# Bring your own furniture
+
+Remember our small custom image
+
+```bash
+FROM ubuntu
+
+RUN apt-get update && \
+    apt-get install gcc -y
+
+```
+
+. . .
+
+Let's add some code so it does something useful (?)
+
+```bash
+FROM ubuntu
+
+RUN apt-get update && \
+    apt-get install gcc -y
+
+COPY hello.sh /myscripts/
+```
+
+. . .
+
+This moves our code to the image
+
+We can then run the script from inside the container
+
+But what if we want to execute our code when the container is run?
+
+
+# Command vs Entrypoint
+
+
+
 # Exercise 3
 # Exercise 4
 # Exercise 5

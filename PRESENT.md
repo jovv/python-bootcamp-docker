@@ -471,11 +471,65 @@ We can then run the script from inside the container
 But what if we want to execute our code when the container is run?
 
 
-# Command vs Entrypoint
+# Execute - command
 
+Containers
+
+* run specific tasks and processes
+* stop when done or an error occurs
+
+task/process is defined by `CMD` and/or `ENTRYPOINT` in the **Dockerfile**
+
+CMD
+
+* default command and/or parameters
+* a Dockerfile can have multiple CMD, but only the last one will be applied
+
+```bash
+CMD ["echo", "Run by command"]
+```
+Note: double quotes!
+
+if only default parameters are provide, an entrypoint should also be defined
+
+```bash
+ENTRYPOINT ["echo"]
+CMD ["Run by command"]
+```
+
+
+# Execute - entrypoint
+
+ENTRYPOINT
+
+* configure a container that will run as an executable
+
+Ground rules:
+
+https://docs.docker.com/engine/reference/builder/#understand-how-cmd-and-entrypoint-interact
+
+Prefer "exec" form, i.e. instruction and arguments as an array
+
+```bash
+ENTRYPOINT ["instruction", "arg1", "arg2"]
+```
 
 
 # Exercise 3
+
+Similar to exercise 2, we will run a python script in a docker container, but this time we will create our own image and container.
+
+* Create a **Dockerfile** baesd on the python image you've used before
+* In that Dockerfile you want to copy the python script into the image, and run that script as the default command to execute when the container is run
+* Build the image
+* Run the a container based on your image
+
+Bonus: show the logs of the container
+
+# Exposition
+
+TODO: expose ports
+
 # Exercise 4
 # Exercise 5
 # Exercise 6

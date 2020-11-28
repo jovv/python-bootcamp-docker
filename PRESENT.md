@@ -311,6 +311,8 @@ Provides user interaction with a `dockerd` daemon
 docker images
 ```
 
+# Docker Images - BYO
+
 A very simple Dockerfile
 
 ```bash
@@ -320,13 +322,13 @@ RUN apt-get update && \
     apt-get install gcc -y
 ```
 
-Oh noes linux /o\
-
 Let's build the image
 
 ```bash
 docker build -t kiss .
 ```
+
+. . .
 
 Note the _layers_ in the build.
 
@@ -337,6 +339,33 @@ docker images | grep kiss
 ```
 
 Note the `tag`, relevant when pushing/pulling specific versions of an image to/from a Docker registry.
+
+e.g. postgres:9.6
+
+Default tag: `latest`
+
+https://hub.docker.com/_/postgres/
+
+# Docker objects - Images from Images
+
+Remember our simple Dockerfile
+
+```bash
+FROM ubuntu
+
+RUN apt-get update && \
+    apt-get install gcc -y
+```
+
+is based on the ubuntu image
+
+The ubuntu image is based on the `scratch` image
+
+`scratch` = empty image, used to build base images or minimal images containing only a single binary
+
+https://hub.docker.com/_/scratch/
+
+
 
 # Docker objects - Containers
 
@@ -370,24 +399,12 @@ Note
 
 https://docs.docker.com/reference/
 
-Today:
-
 https://docs.docker.com/engine/reference/commandline/run/
+
 https://docs.docker.com/engine/reference/builder/
 
+
 # Exercise 1
-
-Run a python container and run the python code
-
-```python
-print("hello container")
-```
-
-in that container.
-
-Use the `python:3.8-slim` image.
-
-Bonus: from your own host machine, inspect the container. What is the output format?
 
 # Volumes
 
@@ -411,9 +428,6 @@ docker logs <container id>
 ```
 
 # Exercise 2
-
-Use the docker image from the previous exercise to run the `hello.py` script in this folder.
-You can do this by 'mounting' the python file into the container.
 
 # Cleaning up
 
@@ -517,20 +531,12 @@ ENTRYPOINT ["instruction", "arg1", "arg2"]
 
 # Exercise 3
 
-Similar to exercise 2, we will run a python script in a docker container, but this time we will create our own image and container.
-
-* Create a **Dockerfile** baesd on the python image you've used before
-* In that Dockerfile you want to copy the python script into the image, and run that script as the default command to execute when the container is run
-* Build the image
-* Run the a container based on your image
-
-Bonus: show the logs of the container
-
 # Exposition
 
 TODO: expose ports
 
 # Exercise 4
+
 # Exercise 5
 # Exercise 6
 # Exercise 7

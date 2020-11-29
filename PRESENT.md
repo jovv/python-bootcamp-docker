@@ -307,6 +307,14 @@ Provides user interaction with a `dockerd` daemon
     * when you change the Dockerfile, only modified layers are rebuilt
         * optimization
 
+Download an image
+
+``bash
+docker pull nginx
+```
+
+Show images on your machine
+
 ```bash
 docker images
 ```
@@ -328,6 +336,8 @@ Let's build the image
 docker build -t kiss .
 ```
 
+will download the file if not present
+
 . . .
 
 Note the _layers_ in the build.
@@ -344,7 +354,7 @@ e.g. postgres:9.6
 
 Default tag: `latest`
 
-https://hub.docker.com/_/postgres/
+[postgres on docker hub](https://hub.docker.com/_/postgres/)
 
 # Docker objects - Images from Images
 
@@ -363,7 +373,7 @@ The ubuntu image is based on the `scratch` image
 
 `scratch` = empty image, used to build base images or minimal images containing only a single binary
 
-https://hub.docker.com/_/scratch/
+[scratch image on docker hub](https://hub.docker.com/_/scratch/)
 
 
 
@@ -374,13 +384,13 @@ https://hub.docker.com/_/scratch/
 - can be isolated connected to other containers, part of a container orchestration platform (cf also `docker-compose`, `kubernetes`, out of scope for this intro)
 
 ```
-docker container ls [-a]
+docker ps [-a]
 ```
 
 How about that _kiss_ container? None yet
 
 ```bash
-docker container ls | grep kiss
+docker ps | grep kiss
 ```
 
 Let's create one
@@ -389,11 +399,47 @@ Let's create one
 docker run -ti kiss
 ```
 
+random id and name, unless specified
+
 > for interactive processes (like a shell), you must use -i -t together in order to allocate a tty for the container process
 
-Note
+!! containers run the image instructions as `root` unless otherwise specified in the Dockerfile
 
-* containers run the image instructions as `root` unless otherwise specified in the Dockerfile
+Stop:
+
+```bash
+docker stop <container id or name>
+```
+
+# Docker containers (2)
+
+!! Running an image that has no task or process defined does nothing, it stops immediately
+
+```bash
+docker run ubuntu
+```
+
+vs 
+
+```bash
+docker run ubuntu echo Did something
+```
+
+Passing a command to a running container
+
+```bash
+docker run nginx --name execdemo
+docker exec nginx cat /etc/hosts
+```
+
+Enter a running container
+
+```bash
+docker exec -ti nginx /bin/bash
+```
+
+Exit the running container with `exit` or `Ctrl`-`D`
+
 
 # Bookmarks
 
@@ -402,6 +448,27 @@ https://docs.docker.com/reference/
 https://docs.docker.com/engine/reference/commandline/run/
 
 https://docs.docker.com/engine/reference/builder/
+
+
+# Summary
+
+## Images
+
+docker
+
+* images
+* pull
+* build
+* rmi
+
+## Containers
+
+* run
+* ps
+* exec
+* rm
+
+
 
 
 # Exercise 1
@@ -418,6 +485,7 @@ docker run -ti -v $(pwd):/myfolder kiss
 
 The changes you make on the files in your host system are reflected in the container, and vice versa.
 
+TODO: add Dockerfile VOLUME example/demo?
 
 # Logs
 
@@ -436,20 +504,36 @@ Remember how to list containers
 Note
 
 ```bash
-docker container ls
+docker ps
 ```
 
 vs
 
 ```bash
-docker container ls -a
+docker ps -a
 ```
 
-How do we get rid of the leftovers?
+How do we get rid of the leftover containers?
+
+"Spring cleaning"
 
 ```bash
 docker container prune
 ```
+
+or more specific 
+
+```bash
+docker rm <container id or name>
+```
+
+Removing images
+
+```bash
+docker rmi <image name>
+```
+
+only if there are no containers dependent on the image
 
 # Bring your own furniture
 
@@ -531,13 +615,28 @@ ENTRYPOINT ["instruction", "arg1", "arg2"]
 
 # Exercise 3
 
-# Exposition
+# Map/expose ports
 
-TODO: expose ports
+Running an api image
+
+**EXAMPLE** api
+
+Runs on its own docker bridge network
+For the host to access it, we want to map a host port to a container port
+
+```bash
+docker run -d --name api-demo -p 8081:8081 bootcamp-api 
+```
+
+notation `HOST_PORT:CONTAINER_PORT`
 
 # Exercise 4
 
 # Exercise 5
 # Exercise 6
-# Exercise 7
-# Exercise 8
+
+# Further practice
+
+Fun and hands-n free course at 
+
+[KodeKloud](https://kodekloud.com/p/docker-for-the-absolute-beginner-hands-on)

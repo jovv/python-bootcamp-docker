@@ -309,7 +309,7 @@ Provides user interaction with a `dockerd` daemon
 
 Download an image
 
-``bash
+```bash
 docker pull nginx
 ```
 
@@ -318,6 +318,14 @@ Show images on your machine
 ```bash
 docker images
 ```
+
+`tag` - relevant when pushing/pulling specific versions of an image to/from a Docker registry.
+
+e.g. postgres:9.6
+
+Default tag: `latest`
+
+[postgres on docker hub](https://hub.docker.com/_/postgres/)
 
 # Docker Images - BYO
 
@@ -340,25 +348,24 @@ will download the file if not present
 
 . . .
 
-Note the _layers_ in the build.
+Dockerfile:
 
-Show
+* a sequence of instruction-arguments pairs
+* each instruction creates a new **layer** in the image 
+* (re-)building the same image will attempt to used cached layers
+* image optimization:
+    * caching
+    * minimize impact possible future changes 
+
+**layered architecture** of Docker images
 
 ```bash
-docker images | grep kiss
+docker history kiss
 ```
 
-Note the `tag`, relevant when pushing/pulling specific versions of an image to/from a Docker registry.
+# Docker Images from Images
 
-e.g. postgres:9.6
-
-Default tag: `latest`
-
-[postgres on docker hub](https://hub.docker.com/_/postgres/)
-
-# Docker objects - Images from Images
-
-Remember our simple Dockerfile
+Our simple Dockerfile
 
 ```bash
 FROM ubuntu
@@ -460,11 +467,12 @@ docker
 * pull
 * build
 * rmi
+* history
 
 ## Containers
 
 * run
-* ps
+* ps [-a]
 * exec
 * rm
 
@@ -484,8 +492,6 @@ docker run -ti -v $(pwd):/myfolder kiss
 `pwd` = print working directory
 
 The changes you make on the files in your host system are reflected in the container, and vice versa.
-
-TODO: add Dockerfile VOLUME example/demo?
 
 # Logs
 
@@ -617,6 +623,12 @@ ENTRYPOINT ["instruction", "arg1", "arg2"]
 
 # Map/expose ports
 
+3 networks
+
+* Docker "bridge" network (172.)
+* none
+* host
+
 Running an api image
 
 **EXAMPLE** api
@@ -630,13 +642,13 @@ docker run -d --name api-demo -p 8081:8081 bootcamp-api
 
 notation `HOST_PORT:CONTAINER_PORT`
 
+
 # Exercise 4
 
 # Exercise 5
-# Exercise 6
 
 # Further practice
 
-Fun and hands-n free course at 
+Fun and hands-on free course at 
 
 [KodeKloud](https://kodekloud.com/p/docker-for-the-absolute-beginner-hands-on)

@@ -12,17 +12,31 @@ A group of whales is called a
 
 pod!
 
-# Verify Docker installation
+# Setup - Verify Docker installation
 
-```
+```bash
 docker version
 ```
 
 or
 
-```
+```bash
 docker --version
 ```
+
+# Setup - Github
+
+Course material for today, clone this git repo:
+
+    git clone https://github.com/jovv/python-bootcamp-docker
+
+Create a github account if you don't have one already and paste you github handle in the chat
+
+Checkout a new branch with your github handle as the branch name
+
+    git checkout -b <your github handle>
+
+Commit and push your exercise solution to your branch
 
 # Your trainer today
 
@@ -40,7 +54,7 @@ recent projects:
 
 # Relevance - skills in demand (1)
 
-_Skills & Qualifications_
+## Skills & Qualifications
 
 For the **Big Data Position**:
 
@@ -58,7 +72,7 @@ innovative ideas.
 
 . . .
 
-_Desired Skills & Experience_
+## Desired Skills & Experience
 
 Required:
 
@@ -78,7 +92,7 @@ work time effectively.
 
 # Relevance - skills in demand (2)
 
-Profiel:
+## Profiel
 
 * Je hebt een bachelor of master in een wetenschappelijke richting (ingenieur,
 informatica, wetenschappen, ...)
@@ -101,7 +115,7 @@ Je draagt privacy en ethiek hoog in het vaandel.
 
 . . .
 
-Profiel:
+## Profiel
 
 * Je hebt minimum 5 jaar relevante werkervaring
 * Je bent communicatief en een teamspeler

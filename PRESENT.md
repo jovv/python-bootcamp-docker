@@ -36,7 +36,7 @@ Checkout a new branch with your github handle as the branch name
 
     git checkout -b <your github handle>
 
-Commit and push your exercise solution to your branch
+Commit and push your exercise solutions to your branch
 
 # Your trainer today
 
@@ -51,6 +51,8 @@ recent projects:
 * Port of Rotterdam: "Navigate" - container orchestration (pun intended)
 * Arcelor Mittal: on premise Hadoop setup and streaming data ingest with Kafka
 * DPG Media (present) - video recommendations for VTMGo, Streamz, HLN, AD
+
+# Why Docker ?
 
 # Relevance - skills in demand (1)
 
@@ -177,7 +179,7 @@ to  _just work_
 
 . . .
 
-Our application:
+Example application:
 
 * web server - node.js
 * database - PostgreSQL
@@ -275,7 +277,7 @@ Bins/Libs   Bins/Libs   Bins/Libs
 
 # Cloud platforms
 
-Combining both
+VM's _and_ containers, combining both
 
 ```
 App 1       App 2       App 3       App 4         |  Container   |
@@ -400,9 +402,12 @@ The ubuntu image is based on the `scratch` image
 
 # Docker objects - Containers
 
-- a runnable instance of a Docker image
-- create, start, stop, remove, add storage, network, create an image from a container state
-- can be isolated connected to other containers, part of a container orchestration platform (cf also `docker-compose`, `kubernetes`, out of scope for this intro)
+* a runnable instance of a Docker image
+    * the image layers are read-only
+    * the container layer is write-able
+    * when modifying a file in the container that were shipped with the image, Docker creates a copy of that file in the writeable layer
+* create, start, stop, remove, add storage, network, create an image from a container state
+* can be isolated connected to other containers, part of a container orchestration platform (cf also `docker-compose`, `kubernetes`, out of scope for this intro)
 
 ```
 docker ps [-a]
@@ -495,12 +500,42 @@ docker
 
 # Exercise 1
 
-# Volumes
+# Volumes (1)
+
+## Volume mounting
+
+Mount docker volumes
+
+```bash
+docker create volume my_volume
+
+docker run -ti -v my_volume:somefolder kiss
+```
+
+Where is the folder on our host system? 
+
+MacOS runs the docker engine in a Linux VM, we have to atach to that VM first
+
+```bash
+screen  ~/Library/Containers/com.docker.docker/Data/vms/0/tty
+
+ls -ltrh /var/lib/docker/volumes/my_volume/_data/
+```
+
+# Volume (2)
+
+## Bind mounting
 
 Mount host folders into the container
 
 ```bash
 docker run -ti -v $(pwd):/myfolder kiss
+```
+
+Or with the newer syntax
+
+```bash
+docker run -ti --mount type=bind,source=$(pwd),target=/myfolder
 ```
 
 `pwd` = print working directory
@@ -571,6 +606,8 @@ RUN apt-get update && \
 
 Let's add some code so it does something useful (?)
 
+**EXAMPLE** furniture
+
 ```bash
 FROM ubuntu
 
@@ -602,6 +639,8 @@ CMD
 
 * default command and/or parameters
 * a Dockerfile can have multiple CMD, but only the last one will be applied
+
+**EXAMPLE** execute
 
 ```bash
 CMD ["echo", "Run by command"]

@@ -52,6 +52,10 @@ recent projects:
 * Arcelor Mittal: on premise Hadoop setup and streaming data ingest with Kafka
 * DPG Media (present) - video recommendations for VTMGo, Streamz, HLN, AD
 
+# Administration - list of attendance
+
+...
+
 # Why Docker ?
 
 # Relevance - skills in demand (1)
@@ -699,6 +703,10 @@ notation `HOST_PORT:CONTAINER_PORT`
 # Exercise 4
 
 # Exercise 5
+
+# Administration - Feedback form
+
+...
 
 # Further practice
 

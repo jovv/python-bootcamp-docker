@@ -4,6 +4,15 @@ author: Jochen Van de Voorde
 purpose: Python bootcamp, Ordina Belgium nv, december 2020
 ...
 
+# Welcome
+
+An introduction to Docker
+
+Course requirements
+
+* Git
+* Docker Desktop
+
 # A very short Quiz
 
 A group of whales is called a 

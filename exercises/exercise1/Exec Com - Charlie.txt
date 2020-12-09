@@ -1,0 +1,9 @@
+Exec1
+
+--Image---
+docker pull python:3.8-slim
+docker run -ti python:3.8-slim
+
+--Image--
+print('Hello World - Charlie')
+quit()

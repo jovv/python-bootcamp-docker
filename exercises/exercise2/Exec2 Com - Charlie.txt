@@ -1,0 +1,4 @@
+Exec1
+
+--Bash---
+docker run -ti -v $(pwd):/myfolder 538dfc7591fb python /myfolder/hello.py

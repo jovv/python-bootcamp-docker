@@ -467,7 +467,7 @@ docker run ubuntu echo Did something
 Passing a command to a running container
 
 ```bash
-docker run nginx --name execdemo
+docker run --name execdemo nginx 
 docker exec nginx cat /etc/hosts
 ```
 
@@ -520,14 +520,14 @@ docker
 Mount docker volumes
 
 ```bash
-docker create volume my_volume
+docker volume create my_volume
 
-docker run -ti -v my_volume:somefolder kiss
+docker run -ti -v my_volume:/somefolder kiss
 ```
 
 Where is the folder on our host system? 
 
-MacOS runs the docker engine in a Linux VM, we have to atach to that VM first
+MacOS and Windows run the docker engine in a Linux VM, we have to atach to that VM first
 
 ```bash
 screen  ~/Library/Containers/com.docker.docker/Data/vms/0/tty

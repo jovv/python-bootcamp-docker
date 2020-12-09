@@ -1,0 +1,9 @@
+C:\Users\DaVr>docker run -ti python:3.8-slim
+
+Python 3.8.6 (default, Nov 25 2020, 02:47:44)
+[GCC 8.3.0] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>>
+>>> print("hello world")
+hello world
+>>> exit()
